@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<metadata>
+<remove-node path="/api/namespace/struct[@cname='AtkImplementor']" />
+<remove-node path="/api/namespace/interface[@cname='AtkImplementorIface']" />
+<add-node path="/api/namespace">
+    <interface name="Implementor" cname="AtkImplementor">
+      <class_struct cname="AtkImplementorIface">
+        <field name="Parent" cname="parent" type="GTypeInterface" />
+        <method vm="ref_accessible" />
+      </class_struct>
+      <virtual_method name="RefAccessible" cname="ref_accessible">
+        <return-type type="AtkObject*" owned="true" />
+        <parameters />
+      </virtual_method>
+      <method name="GetType" cname="atk_implementor_get_type" shared="true">
+        <return-type type="GType" />
+      </method>
+      <method name="RefAccessible" cname="atk_implementor_ref_accessible">
+        <return-type type="AtkObject*" owned="true" />
+      </method>
+    </interface>
+</add-node>
+<remove-attr path="/api/namespace/interface[@cname='AtkText']/method[@cname='atk_text_get_bounded_ranges']/return-type" name="array" />
+<remove-attr path="/api/namespace/interface[@cname='AtkText']/method[@cname='atk_text_get_bounded_ranges']/return-type" name="null_term_array" />
+<attr path="/api/namespace/interface[@cname='AtkText']/method[@cname='atk_text_get_bounded_ranges']/return-type" name="type">AtkTextRange**</attr>
+
+<remove-attr path="/api/namespace/interface[@cname='AtkText']/virtual_method[@cname='get_bounded_ranges']/return-type" name="array" />
+<remove-attr path="/api/namespace/interface[@cname='AtkText']/virtual_method[@cname='get_bounded_ranges']/return-type" name="null_term_array" />
+<attr path="/api/namespace/interface[@cname='AtkText']/virtual_method[@cname='get_bounded_ranges']/return-type" name="type">AtkTextRange**</attr>
+
+<remove-attr path="/api/namespace/callback[@cname='AtkGetBoundedRangesFunc']/return-type" name="array" />
+<remove-attr path="/api/namespace/callback[@cname='AtkGetBoundedRangesFunc']/return-type" name="null_term_array" />
+<attr path="/api/namespace/callback[@cname='AtkGetBoundedRangesFunc']/return-type" name="type">AtkTextRange**</attr>
+
+<remove-attr path="/api/namespace/object[@cname='AtkRelation']/method[@cname='atk_relation_get_target']/return-type" name="array" />
+<remove-attr path="/api/namespace/object[@cname='AtkRelation']/method[@cname='atk_relation_get_target']/return-type" name="null_term_array" />
+<attr path="/api/namespace/object[@cname='AtkRelation']/method[@cname='atk_relation_get_target']/return-type" name="type" >GPtrArray*</attr>
+<attr path="/api/namespace/object[@cname='AtkRelation']/method[@cname='atk_relation_get_target']/return-type" name="element_type" >AtkObject*</attr>
+</metadata>
+
