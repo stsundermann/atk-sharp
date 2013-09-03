@@ -236,12 +236,49 @@
     <enum name="HyperlinkStateFlags" cname="AtkHyperlinkStateFlags" type="flags" gtype="atk_hyperlink_state_flags_get_type">
       <member cname="ATK_HYPERLINK_IS_INLINE" name="Inline" value="1"/>
     </enum>
+    <callback name="EventListener" cname="AtkEventListener">
+      <return-type type="void"/>
+      <parameters>
+        <parameter name="obj" type="AtkObject*"/>
+      </parameters>
+    </callback>
+    <callback name="EventListenerInit" cname="AtkEventListenerInit">
+      <return-type type="void"/>
+    </callback>
+    <callback name="FocusHandler" cname="AtkFocusHandler">
+      <return-type type="void"/>
+      <parameters>
+        <parameter name="arg0" type="AtkObject*"/>
+        <parameter name="arg1" type="gboolean"/>
+      </parameters>
+    </callback>
+    <callback name="Function" cname="AtkFunction">
+      <return-type type="gboolean"/>
+      <parameters>
+        <parameter name="user_data" type="gpointer"/>
+      </parameters>
+    </callback>
+    <callback name="KeySnoopFunc" cname="AtkKeySnoopFunc">
+      <return-type type="gint"/>
+      <parameters>
+        <parameter name="event" type="AtkKeyEventStruct*">
+          <warning>missing glib:type-name</warning>
+        </parameter>
+        <parameter name="user_data" type="gpointer"/>
+      </parameters>
+    </callback>
+    <callback hidden="0" name="PropertyChangeHandler" cname="AtkPropertyChangeHandler">
+      <return-type type="void"/>
+      <parameters>
+        <parameter name="obj" type="AtkObject*"/>
+        <parameter name="vals" type="AtkPropertyValues*"/>
+      </parameters>
+    </callback>
     <interface name="Action" cname="AtkAction" abstract="false" opaque="false" hidden="false">
       <class_struct cname="AtkActionIface">
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
         <method vm="do_action"/>
         <method vm="get_n_actions"/>
         <method vm="get_description"/>
@@ -249,6 +286,7 @@
         <method vm="get_keybinding"/>
         <method vm="set_description"/>
         <method vm="get_localized_name"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_action_get_type" shared="true">
         <return-type type="GType"/>
@@ -416,7 +454,7 @@
         <parameters/>
       </virtual_method>
       <virtual_method name="RefAccessibleAtPoint" cname="ref_accessible_at_point">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="x" type="gint"/>
           <parameter name="y" type="gint"/>
@@ -504,7 +542,7 @@
         <parameters/>
       </method>
       <method name="RefAccessibleAtPoint" cname="atk_component_ref_accessible_at_point">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="x" type="gint"/>
           <parameter name="y" type="gint"/>
@@ -556,16 +594,16 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
-        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
-        <field cname="pad4" access="public" writeable="false" readable="true" name="Pad4" type="AtkFunction"/>
         <method vm="get_document_type"/>
         <method vm="get_document"/>
         <method vm="get_document_locale"/>
         <method vm="get_document_attributes"/>
         <method vm="get_document_attribute_value"/>
         <method vm="set_document_attribute"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
+        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
+        <field cname="pad4" access="public" writeable="false" readable="true" name="Pad4" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_document_get_type" shared="true">
         <return-type type="GType"/>
@@ -642,8 +680,6 @@
         <field cname="parent_interface" access="public" writeable="false" readable="true" name="ParentInterface" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
         <method vm="set_run_attributes"/>
         <method vm="set_text_contents"/>
         <method vm="insert_text"/>
@@ -651,6 +687,8 @@
         <method vm="cut_text"/>
         <method vm="delete_text"/>
         <method vm="paste_text"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_editable_text_get_type" shared="true">
         <return-type type="GType"/>
@@ -759,18 +797,18 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
         <method vm="get_hyperlink"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_hyperlink_impl_get_type" shared="true">
         <return-type type="GType"/>
       </method>
       <virtual_method name="GetHyperlink" cname="get_hyperlink">
-        <return-type type="AtkHyperlink*"/>
+        <return-type type="AtkHyperlink*" owned="true"/>
         <parameters/>
       </virtual_method>
       <method name="GetHyperlink" cname="atk_hyperlink_impl_get_hyperlink">
-        <return-type type="AtkHyperlink*"/>
+        <return-type type="AtkHyperlink*" owned="true"/>
         <parameters/>
       </method>
     </interface>
@@ -779,13 +817,13 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
-        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
         <method vm="get_link"/>
         <method vm="get_n_links"/>
         <method vm="get_link_index"/>
         <method signal_vm="link_selected"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
+        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_hypertext_get_type" shared="true">
         <return-type type="GType"/>
@@ -834,12 +872,12 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
         <method vm="get_image_position"/>
         <method vm="get_image_description"/>
         <method vm="get_image_size"/>
         <method vm="set_image_description"/>
         <method vm="get_image_locale"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_image_get_type" shared="true">
         <return-type type="GType"/>
@@ -913,8 +951,6 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
         <method vm="add_selection"/>
         <method vm="clear_selection"/>
         <method vm="ref_selection"/>
@@ -923,6 +959,8 @@
         <method vm="remove_selection"/>
         <method vm="select_all_selection"/>
         <method signal_vm="selection_changed"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_selection_get_type" shared="true">
         <return-type type="GType"/>
@@ -948,7 +986,7 @@
         </parameters>
       </virtual_method>
       <virtual_method name="RefSelection" cname="ref_selection">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="i" type="gint"/>
         </parameters>
@@ -984,7 +1022,7 @@
         </parameters>
       </method>
       <method name="RefSelection" cname="atk_selection_ref_selection">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="i" type="gint"/>
         </parameters>
@@ -1009,13 +1047,13 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
-        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
         <method vm="get_n_mime_types"/>
         <method vm="get_mime_type"/>
         <method vm="get_stream"/>
         <method vm="get_uri"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
+        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_streamable_content_get_type" shared="true">
         <return-type type="GType"/>
@@ -1031,7 +1069,7 @@
         <parameters/>
       </virtual_method>
       <virtual_method name="GetStream" cname="get_stream">
-        <return-type type="GLib.IOChannel*"/>
+        <return-type type="GLib.IOChannel*" owned="true"/>
         <parameters>
           <parameter name="mime_type" type="const-gchar*"/>
         </parameters>
@@ -1053,7 +1091,7 @@
         <parameters/>
       </method>
       <method name="GetStream" cname="atk_streamable_content_get_stream">
-        <return-type type="GLib.IOChannel*"/>
+        <return-type type="GLib.IOChannel*" owned="true"/>
         <parameters>
           <parameter name="mime_type" type="const-gchar*"/>
         </parameters>
@@ -1070,10 +1108,6 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
-        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
-        <field cname="pad4" access="public" writeable="false" readable="true" name="Pad4" type="AtkFunction"/>
         <method vm="ref_at"/>
         <method vm="get_index_at"/>
         <method vm="get_column_at_index"/>
@@ -1110,6 +1144,10 @@
         <method signal_vm="row_reordered"/>
         <method signal_vm="column_reordered"/>
         <method signal_vm="model_changed"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
+        <field cname="pad3" access="public" writeable="false" readable="true" name="Pad3" type="AtkFunction"/>
+        <field cname="pad4" access="public" writeable="false" readable="true" name="Pad4" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_table_get_type" shared="true">
         <return-type type="GType"/>
@@ -1208,7 +1246,7 @@
         </parameters>
       </virtual_method>
       <virtual_method name="GetSummary" cname="get_summary">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters/>
       </virtual_method>
       <virtual_method name="IsColumnSelected" cname="is_column_selected">
@@ -1231,7 +1269,7 @@
         </parameters>
       </virtual_method>
       <virtual_method name="RefAt" cname="ref_at">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="row" type="gint"/>
           <parameter name="column" type="gint"/>
@@ -1383,7 +1421,7 @@
         </parameters>
       </method>
       <method name="GetSummary" cname="atk_table_get_summary">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters/>
       </method>
       <method name="IsColumnSelected" cname="atk_table_is_column_selected">
@@ -1406,7 +1444,7 @@
         </parameters>
       </method>
       <method name="RefAt" cname="atk_table_ref_at">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="row" type="gint"/>
           <parameter name="column" type="gint"/>
@@ -1510,7 +1548,6 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad4" access="public" writeable="false" readable="true" name="Pad4" type="AtkFunction"/>
         <method vm="get_text"/>
         <method vm="get_text_after_offset"/>
         <method vm="get_text_at_offset"/>
@@ -1534,6 +1571,7 @@
         <method signal_vm="text_attributes_changed"/>
         <method vm="get_range_extents"/>
         <method vm="get_bounded_ranges"/>
+        <field cname="pad4" access="public" writeable="false" readable="true" name="Pad4" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_text_get_type" shared="true">
         <return-type type="GType"/>
@@ -1552,7 +1590,7 @@
         </parameters>
       </virtual_method>
       <virtual_method name="GetBoundedRanges" cname="get_bounded_ranges">
-        <return-type type="AtkTextRange***" array="true" null_term_array="true"/>
+        <return-type type="AtkTextRange***" owned="true" array="true" null_term_array="true"/>
         <parameters>
           <parameter name="rect" type="AtkTextRectangle*">
             <warning>missing glib:type-name</warning>
@@ -1588,7 +1626,7 @@
         </parameters>
       </virtual_method>
       <virtual_method name="GetDefaultAttributes" cname="get_default_attributes">
-        <return-type type="GSList"/>
+        <return-type type="GSList" owned="true"/>
         <parameters/>
       </virtual_method>
       <virtual_method name="GetNSelections" cname="get_n_selections">
@@ -1615,53 +1653,53 @@
         </parameters>
       </virtual_method>
       <virtual_method name="GetRunAttributes" cname="get_run_attributes">
-        <return-type type="GSList"/>
+        <return-type type="GSList" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </virtual_method>
       <virtual_method name="GetSelection" cname="get_selection">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="selection_num" type="gint"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </virtual_method>
       <virtual_method name="GetText" cname="get_text">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="start_offset" type="gint"/>
           <parameter name="end_offset" type="gint"/>
         </parameters>
       </virtual_method>
       <virtual_method name="GetTextAfterOffset" cname="get_text_after_offset">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
           <parameter name="boundary_type" type="AtkTextBoundary"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </virtual_method>
       <virtual_method name="GetTextAtOffset" cname="get_text_at_offset">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
           <parameter name="boundary_type" type="AtkTextBoundary"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </virtual_method>
       <virtual_method name="GetTextBeforeOffset" cname="get_text_before_offset">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
           <parameter name="boundary_type" type="AtkTextBoundary"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </virtual_method>
       <virtual_method name="RemoveSelection" cname="remove_selection">
@@ -1692,7 +1730,7 @@
         </parameters>
       </method>
       <method name="GetBoundedRanges" cname="atk_text_get_bounded_ranges">
-        <return-type type="AtkTextRange***" array="true" null_term_array="true"/>
+        <return-type type="AtkTextRange***" owned="true" array="true" null_term_array="true"/>
         <parameters>
           <parameter name="rect" type="AtkTextRectangle*">
             <warning>missing glib:type-name</warning>
@@ -1728,7 +1766,7 @@
         </parameters>
       </method>
       <method name="GetDefaultAttributes" cname="atk_text_get_default_attributes">
-        <return-type type="GSList"/>
+        <return-type type="GSList" owned="true"/>
         <parameters/>
       </method>
       <method name="GetNSelections" cname="atk_text_get_n_selections">
@@ -1755,53 +1793,53 @@
         </parameters>
       </method>
       <method name="GetRunAttributes" cname="atk_text_get_run_attributes">
-        <return-type type="GSList"/>
+        <return-type type="GSList" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </method>
       <method name="GetSelection" cname="atk_text_get_selection">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="selection_num" type="gint"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </method>
       <method name="GetText" cname="atk_text_get_text">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="start_offset" type="gint"/>
           <parameter name="end_offset" type="gint"/>
         </parameters>
       </method>
       <method name="GetTextAfterOffset" cname="atk_text_get_text_after_offset">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
           <parameter name="boundary_type" type="AtkTextBoundary"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </method>
       <method name="GetTextAtOffset" cname="atk_text_get_text_at_offset">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
           <parameter name="boundary_type" type="AtkTextBoundary"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </method>
       <method name="GetTextBeforeOffset" cname="atk_text_get_text_before_offset">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="offset" type="gint"/>
           <parameter name="boundary_type" type="AtkTextBoundary"/>
-          <parameter name="start_offset" type="gint*"/>
-          <parameter name="end_offset" type="gint*"/>
+          <parameter name="start_offset" type="gint*" owned="true" pass_as="out"/>
+          <parameter name="end_offset" type="gint*" owned="true" pass_as="out"/>
         </parameters>
       </method>
       <method name="RemoveSelection" cname="atk_text_remove_selection">
@@ -1876,12 +1914,12 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GTypeInterface">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
         <method vm="get_current_value"/>
         <method vm="get_maximum_value"/>
         <method vm="get_minimum_value"/>
         <method vm="set_current_value"/>
         <method vm="get_minimum_increment"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_value_get_type" shared="true">
         <return-type type="GType"/>
@@ -2045,7 +2083,6 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GObjectClass">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
         <method vm="get_uri"/>
         <method vm="get_object"/>
         <method vm="get_end_index"/>
@@ -2055,6 +2092,7 @@
         <method vm="link_state"/>
         <method vm="is_selected_link"/>
         <method signal_vm="link_activated"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_hyperlink_get_type" shared="true">
         <return-type type="GType"/>
@@ -2078,7 +2116,7 @@
         <parameters/>
       </virtual_method>
       <virtual_method name="GetUri" cname="get_uri">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="i" type="gint"/>
         </parameters>
@@ -2114,7 +2152,7 @@
         <parameters/>
       </method>
       <method name="GetUri" cname="atk_hyperlink_get_uri">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters>
           <parameter name="i" type="gint"/>
         </parameters>
@@ -2142,9 +2180,9 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GObjectClass">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="vfuncs" access="public" writeable="false" readable="true" name="Vfuncs" type="gpointer" array="true" array_len="32"/>
         <method vm="threads_enter"/>
         <method vm="threads_leave"/>
+        <field cname="vfuncs" access="public" writeable="false" readable="true" name="Vfuncs" type="gpointer" array="true" array_len="32"/>
       </class_struct>
       <method name="GetType" cname="atk_misc_get_type" shared="true">
         <return-type type="GType"/>
@@ -2216,7 +2254,6 @@
         <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GObjectClass">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
         <method vm="get_name"/>
         <method vm="get_description"/>
         <method vm="get_parent"/>
@@ -2243,6 +2280,7 @@
         <method signal_vm="active_descendant_changed"/>
         <method vm="get_attributes"/>
         <method vm="get_object_locale"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
       </class_struct>
       <method name="GetType" cname="atk_object_get_type" shared="true">
         <return-type type="GType"/>
@@ -2306,11 +2344,11 @@
         </parameters>
       </virtual_method>
       <virtual_method name="RefRelationSet" cname="ref_relation_set">
-        <return-type type="AtkRelationSet*"/>
+        <return-type type="AtkRelationSet*" owned="true"/>
         <parameters/>
       </virtual_method>
       <virtual_method name="RefStateSet" cname="ref_state_set">
-        <return-type type="AtkStateSet*"/>
+        <return-type type="AtkStateSet*" owned="true"/>
         <parameters/>
       </virtual_method>
       <virtual_method name="RemovePropertyChangeHandler" cname="remove_property_change_handler">
@@ -2396,17 +2434,17 @@
         </parameters>
       </method>
       <method name="RefAccessibleChild" cname="atk_object_ref_accessible_child">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="i" type="gint"/>
         </parameters>
       </method>
       <method name="RefRelationSet" cname="atk_object_ref_relation_set">
-        <return-type type="AtkRelationSet*"/>
+        <return-type type="AtkRelationSet*" owned="true"/>
         <parameters/>
       </method>
       <method name="RefStateSet" cname="atk_object_ref_state_set">
-        <return-type type="AtkStateSet*"/>
+        <return-type type="AtkStateSet*" owned="true"/>
         <parameters/>
       </method>
       <method name="RemovePropertyChangeHandler" cname="atk_object_remove_property_change_handler">
@@ -2464,6 +2502,7 @@
       <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GObject*"/>
       <field cname="description" access="public" writeable="false" readable="true" name="Description" type="gchar*"/>
       <field cname="name" access="public" writeable="false" readable="true" name="Name" type="gchar*"/>
+      <field cname="accessible_parent" access="public" writeable="false" readable="true" name="AccessibleParentField" type="AtkObject*"/>
       <field cname="role" access="public" writeable="false" readable="true" name="Role" type="AtkRole"/>
       <field cname="relation_set" access="public" writeable="false" readable="true" name="RelationSet" type="AtkRelationSet*"/>
       <field cname="layer" access="public" writeable="false" readable="true" name="Layer" type="AtkLayer"/>
@@ -2509,11 +2548,11 @@
         <field cname="parent_class" access="public" writeable="false" readable="true" name="ParentClass" type="GObjectClass">
           <warning>missing glib:type-name</warning>
         </field>
-        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
-        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
         <method vm="create_accessible"/>
         <method vm="invalidate"/>
         <method vm="get_accessible_type"/>
+        <field cname="pad1" access="public" writeable="false" readable="true" name="Pad1" type="AtkFunction"/>
+        <field cname="pad2" access="public" writeable="false" readable="true" name="Pad2" type="AtkFunction"/>
       </class_struct>
       <virtual_method name="CreateAccessible" cname="create_accessible" shared="true" hidden="true">
         <return-type type="AtkObject*"/>
@@ -2532,7 +2571,7 @@
         <parameters/>
       </virtual_method>
       <method name="CreateAccessible" cname="atk_object_factory_create_accessible">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters>
           <parameter name="obj" type="GObject*"/>
         </parameters>
@@ -2562,11 +2601,11 @@
       </method>
       <constructor cname="atk_plug_new" disable_void_ctor=""/>
       <virtual_method name="GetObjectId" cname="get_object_id">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters/>
       </virtual_method>
       <method name="GetId" cname="atk_plug_get_id">
-        <return-type type="gchar*"/>
+        <return-type type="gchar*" owned="true"/>
         <parameters/>
       </method>
       <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="AtkObject*"/>
@@ -2634,6 +2673,7 @@
       <property name="RelationType" cname="relation-type" type="AtkRelationType" readable="true" writeable="true" construct="false" construct-only="false"/>
       <property name="Target" cname="target" type="GValueArray*" readable="true" writeable="true" construct="false" construct-only="false"/>
       <field cname="parent" access="public" writeable="false" readable="true" name="Parent" type="GObject*"/>
+      <field cname="target" access="public" writeable="false" readable="true" name="TargetField" type="GPtrArray" array="true" null_term_array="true"/>
       <field cname="relationship" access="public" writeable="false" readable="true" name="Relationship" type="AtkRelationType"/>
     </object>
     <object name="RelationSet" cname="AtkRelationSet" abstract="false" opaque="false" hidden="false" parent="GObject">
@@ -2756,7 +2796,7 @@
         </parameters>
       </method>
       <method name="AndSets" cname="atk_state_set_and_sets">
-        <return-type type="AtkStateSet*"/>
+        <return-type type="AtkStateSet*" owned="true"/>
         <parameters>
           <parameter name="compare_set" type="AtkStateSet*"/>
         </parameters>
@@ -2783,7 +2823,7 @@
         <parameters/>
       </method>
       <method name="OrSets" cname="atk_state_set_or_sets">
-        <return-type type="AtkStateSet*"/>
+        <return-type type="AtkStateSet*" owned="true"/>
         <parameters>
           <parameter name="compare_set" type="AtkStateSet*"/>
         </parameters>
@@ -2795,7 +2835,7 @@
         </parameters>
       </method>
       <method name="XorSets" cname="atk_state_set_xor_sets">
-        <return-type type="AtkStateSet*"/>
+        <return-type type="AtkStateSet*" owned="true"/>
         <parameters>
           <parameter name="compare_set" type="AtkStateSet*"/>
         </parameters>
@@ -2867,7 +2907,7 @@
     </struct>
     <struct name="Implementor" cname="AtkImplementor" opaque="true" hidden="false">
       <method name="RefAccessible" cname="atk_implementor_ref_accessible">
-        <return-type type="AtkObject*"/>
+        <return-type type="AtkObject*" owned="true"/>
         <parameters/>
       </method>
     </struct>
@@ -2917,1202 +2957,14 @@
     </struct>
     <struct name="_Registry" cname="_AtkRegistry" opaque="false" hidden="false">
       <field cname="parent" access="public" writeable="true" readable="true" name="Parent" type="GObject*"/>
-      <field cname="factory_type_registry" access="public" writeable="true" readable="true" name="FactoryTypeRegistry" type="GLib.HashTable"/>
-      <field cname="factory_singleton_cache" access="public" writeable="true" readable="true" name="FactorySingletonCache" type="GLib.HashTable"/>
+      <field cname="factory_type_registry" access="public" writeable="true" readable="true" name="FactoryTypeRegistry" type="GHashTable*" element_type="gpointer"/>
+      <field cname="factory_singleton_cache" access="public" writeable="true" readable="true" name="FactorySingletonCache" type="GHashTable*" element_type="gpointer"/>
     </struct>
     <struct name="_RegistryClass" cname="_AtkRegistryClass" opaque="false" hidden="false">
       <field cname="parent_class" access="public" writeable="true" readable="true" name="ParentClass" type="GObjectClass">
         <warning>missing glib:type-name</warning>
       </field>
     </struct>
-    <callback name="EventListener" cname="AtkEventListener">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="obj" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="EventListenerInit" cname="AtkEventListenerInit">
-      <return-type type="void"/>
-    </callback>
-    <callback name="FocusHandler" cname="AtkFocusHandler">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="arg0" type="AtkObject*"/>
-        <parameter name="arg1" type="gboolean"/>
-      </parameters>
-    </callback>
-    <callback name="Function" cname="AtkFunction">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="user_data" type="gpointer"/>
-      </parameters>
-    </callback>
-    <callback name="KeySnoopFunc" cname="AtkKeySnoopFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="event" type="AtkKeyEventStruct*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-        <parameter name="user_data" type="gpointer"/>
-      </parameters>
-    </callback>
-    <callback name="DoAction" cname="AtkDoActionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="action" type="AtkAction*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetNActions" cname="AtkGetNActionsFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="action" type="AtkAction*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDescription" cname="AtkGetDescriptionFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="action" type="AtkAction*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetName" cname="AtkGetNameFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="action" type="AtkAction*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetKeybinding" cname="AtkGetKeybindingFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="action" type="AtkAction*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="SetDescription" cname="AtkSetDescriptionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="action" type="AtkAction*"/>
-        <parameter name="i" type="gint"/>
-        <parameter name="desc" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="GetLocalizedName" cname="AtkGetLocalizedNameFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="action" type="AtkAction*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="Contains" cname="AtkContainsFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="RefAccessibleAtPoint" cname="AtkRefAccessibleAtPointFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="GetExtents" cname="AtkGetExtentsFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="width" type="gint"/>
-        <parameter name="height" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="GetPosition" cname="AtkGetPositionFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="GetSize" cname="AtkGetSizeFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="width" type="gint"/>
-        <parameter name="height" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GrabFocus" cname="AtkGrabFocusFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-      </parameters>
-    </callback>
-    <callback name="RemoveFocusHandler" cname="AtkRemoveFocusHandlerFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="handler_id" type="guint"/>
-      </parameters>
-    </callback>
-    <callback name="SetExtents" cname="AtkSetExtentsFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="width" type="gint"/>
-        <parameter name="height" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="SetPosition" cname="AtkSetPositionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="SetSize" cname="AtkSetSizeFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="width" type="gint"/>
-        <parameter name="height" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetLayer" cname="AtkGetLayerFunc">
-      <return-type type="AtkLayer"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-      </parameters>
-    </callback>
-    <callback name="GetMdiZorder" cname="AtkGetMdiZorderFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-      </parameters>
-    </callback>
-    <callback name="BoundsChanged" cname="AtkBoundsChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-        <parameter name="bounds" type="AtkRectangle*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-      </parameters>
-    </callback>
-    <callback name="GetAlpha" cname="AtkGetAlphaFunc">
-      <return-type type="gdouble"/>
-      <parameters>
-        <parameter name="component" type="AtkComponent*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDocumentType" cname="AtkGetDocumentTypeFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="document" type="AtkDocument*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDocument" cname="AtkGetDocumentFunc">
-      <return-type type="gpointer"/>
-      <parameters>
-        <parameter name="document" type="AtkDocument*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDocumentLocale" cname="AtkGetDocumentLocaleFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="document" type="AtkDocument*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDocumentAttributes" cname="AtkGetDocumentAttributesFunc">
-      <return-type type="GSList"/>
-      <parameters>
-        <parameter name="document" type="AtkDocument*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDocumentAttributeValue" cname="AtkGetDocumentAttributeValueFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="document" type="AtkDocument*"/>
-        <parameter name="attribute_name" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="SetDocumentAttribute" cname="AtkSetDocumentAttributeFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="document" type="AtkDocument*"/>
-        <parameter name="attribute_name" type="const-gchar*"/>
-        <parameter name="attribute_value" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="SetRunAttributes" cname="AtkSetRunAttributesFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="text" type="AtkEditableText*"/>
-        <parameter name="attrib_set" type="GSList"/>
-        <parameter name="start_offset" type="gint"/>
-        <parameter name="end_offset" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="SetTextContents" cname="AtkSetTextContentsFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkEditableText*"/>
-        <parameter name="string" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="InsertText" cname="AtkInsertTextFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkEditableText*"/>
-        <parameter name="string" type="const-gchar*"/>
-        <parameter name="length" type="gint"/>
-        <parameter name="position" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="CopyText" cname="AtkCopyTextFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkEditableText*"/>
-        <parameter name="start_pos" type="gint"/>
-        <parameter name="end_pos" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="CutText" cname="AtkCutTextFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkEditableText*"/>
-        <parameter name="start_pos" type="gint"/>
-        <parameter name="end_pos" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="DeleteText" cname="AtkDeleteTextFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkEditableText*"/>
-        <parameter name="start_pos" type="gint"/>
-        <parameter name="end_pos" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="PasteText" cname="AtkPasteTextFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkEditableText*"/>
-        <parameter name="position" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetUri" cname="AtkGetUriFunc">
-      <return-type type="gchar*"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetObject" cname="AtkGetObjectFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetEndIndex" cname="AtkGetEndIndexFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-      </parameters>
-    </callback>
-    <callback name="GetStartIndex" cname="AtkGetStartIndexFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-      </parameters>
-    </callback>
-    <callback name="IsValid" cname="AtkIsValidFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-      </parameters>
-    </callback>
-    <callback name="GetNAnchors" cname="AtkGetNAnchorsFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-      </parameters>
-    </callback>
-    <callback name="LinkState" cname="AtkLinkStateFunc">
-      <return-type type="guint"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-      </parameters>
-    </callback>
-    <callback name="IsSelectedLink" cname="AtkIsSelectedLinkFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-      </parameters>
-    </callback>
-    <callback name="LinkActivated" cname="AtkLinkActivatedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="link_" type="AtkHyperlink*"/>
-      </parameters>
-    </callback>
-    <callback name="GetHyperlink" cname="AtkGetHyperlinkFunc">
-      <return-type type="AtkHyperlink*"/>
-      <parameters>
-        <parameter name="impl" type="AtkHyperlinkImpl*"/>
-      </parameters>
-    </callback>
-    <callback name="GetLink" cname="AtkGetLinkFunc">
-      <return-type type="AtkHyperlink*"/>
-      <parameters>
-        <parameter name="hypertext" type="AtkHypertext*"/>
-        <parameter name="link_index" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetNLinks" cname="AtkGetNLinksFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="hypertext" type="AtkHypertext*"/>
-      </parameters>
-    </callback>
-    <callback name="GetLinkIndex" cname="AtkGetLinkIndexFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="hypertext" type="AtkHypertext*"/>
-        <parameter name="char_index" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="LinkSelected" cname="AtkLinkSelectedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="hypertext" type="AtkHypertext*"/>
-        <parameter name="link_index" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetImagePosition" cname="AtkGetImagePositionFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="image" type="AtkImage*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="GetImageDescription" cname="AtkGetImageDescriptionFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="image" type="AtkImage*"/>
-      </parameters>
-    </callback>
-    <callback name="GetImageSize" cname="AtkGetImageSizeFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="image" type="AtkImage*"/>
-        <parameter name="width" type="gint"/>
-        <parameter name="height" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="SetImageDescription" cname="AtkSetImageDescriptionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="image" type="AtkImage*"/>
-        <parameter name="description" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="GetImageLocale" cname="AtkGetImageLocaleFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="image" type="AtkImage*"/>
-      </parameters>
-    </callback>
-    <callback name="ThreadsEnter" cname="AtkThreadsEnterFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="misc" type="AtkMisc*"/>
-      </parameters>
-    </callback>
-    <callback name="ThreadsLeave" cname="AtkThreadsLeaveFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="misc" type="AtkMisc*"/>
-      </parameters>
-    </callback>
-    <callback name="GetName" cname="AtkGetNameFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDescription" cname="AtkGetDescriptionFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetParent" cname="AtkGetParentFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetNChildren" cname="AtkGetNChildrenFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetIndexInParent" cname="AtkGetIndexInParentFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="RefRelationSet" cname="AtkRefRelationSetFunc">
-      <return-type type="AtkRelationSet*"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetRole" cname="AtkGetRoleFunc">
-      <return-type type="AtkRole"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetLayer" cname="AtkGetLayerFunc">
-      <return-type type="AtkLayer"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetMdiZorder" cname="AtkGetMdiZorderFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="RefStateSet" cname="AtkRefStateSetFunc">
-      <return-type type="AtkStateSet*"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="SetName" cname="AtkSetNameFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="name" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="SetDescription" cname="AtkSetDescriptionFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="description" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="SetParent" cname="AtkSetParentFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="parent" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="SetRole" cname="AtkSetRoleFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="role" type="AtkRole"/>
-      </parameters>
-    </callback>
-    <callback name="RemovePropertyChangeHandler" cname="AtkRemovePropertyChangeHandlerFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="handler_id" type="guint"/>
-      </parameters>
-    </callback>
-    <callback name="Initialize" cname="AtkInitializeFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="data" type="gpointer"/>
-      </parameters>
-    </callback>
-    <callback name="ChildrenChanged" cname="AtkChildrenChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="change_index" type="guint"/>
-        <parameter name="changed_child" type="gpointer"/>
-      </parameters>
-    </callback>
-    <callback name="FocusEvent" cname="AtkFocusEventFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="focus_in" type="gboolean"/>
-      </parameters>
-    </callback>
-    <callback name="StateChange" cname="AtkStateChangeFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="name" type="const-gchar*"/>
-        <parameter name="state_set" type="gboolean"/>
-      </parameters>
-    </callback>
-    <callback name="VisibleDataChanged" cname="AtkVisibleDataChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="ActiveDescendantChanged" cname="AtkActiveDescendantChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-        <parameter name="child" type="gpointer"/>
-      </parameters>
-    </callback>
-    <callback name="GetAttributes" cname="AtkGetAttributesFunc">
-      <return-type type="GSList"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetObjectLocale" cname="AtkGetObjectLocaleFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="Invalidate" cname="AtkInvalidateFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="factory" type="AtkObjectFactory*"/>
-      </parameters>
-    </callback>
-    <callback name="GetAccessibleType" cname="AtkGetAccessibleTypeFunc">
-      <return-type type="GType"/>
-    </callback>
-    <callback name="GetObjectId" cname="AtkGetObjectIdFunc">
-      <return-type type="gchar*"/>
-      <parameters>
-        <parameter name="obj" type="AtkPlug*"/>
-      </parameters>
-    </callback>
-    <callback name="AddSelection" cname="AtkAddSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="ClearSelection" cname="AtkClearSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-      </parameters>
-    </callback>
-    <callback name="RefSelection" cname="AtkRefSelectionFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetSelectionCount" cname="AtkGetSelectionCountFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-      </parameters>
-    </callback>
-    <callback name="IsChildSelected" cname="AtkIsChildSelectedFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="RemoveSelection" cname="AtkRemoveSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="SelectAllSelection" cname="AtkSelectAllSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-      </parameters>
-    </callback>
-    <callback name="SelectionChanged" cname="AtkSelectionChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="selection" type="AtkSelection*"/>
-      </parameters>
-    </callback>
-    <callback name="Embed" cname="AtkEmbedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="obj" type="AtkSocket*"/>
-        <parameter name="plug_id" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="GetNMimeTypes" cname="AtkGetNMimeTypesFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="streamable" type="AtkStreamableContent*"/>
-      </parameters>
-    </callback>
-    <callback name="GetMimeType" cname="AtkGetMimeTypeFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="streamable" type="AtkStreamableContent*"/>
-        <parameter name="i" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetStream" cname="AtkGetStreamFunc">
-      <return-type type="GLib.IOChannel*"/>
-      <parameters>
-        <parameter name="streamable" type="AtkStreamableContent*"/>
-        <parameter name="mime_type" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="GetUri" cname="AtkGetUriFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="streamable" type="AtkStreamableContent*"/>
-        <parameter name="mime_type" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="RefAt" cname="AtkRefAtFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetIndexAt" cname="AtkGetIndexAtFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetColumnAtIndex" cname="AtkGetColumnAtIndexFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="index_" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetRowAtIndex" cname="AtkGetRowAtIndexFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="index_" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetNColumns" cname="AtkGetNColumnsFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-      </parameters>
-    </callback>
-    <callback name="GetNRows" cname="AtkGetNRowsFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-      </parameters>
-    </callback>
-    <callback name="GetColumnExtentAt" cname="AtkGetColumnExtentAtFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetRowExtentAt" cname="AtkGetRowExtentAtFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetCaption" cname="AtkGetCaptionFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-      </parameters>
-    </callback>
-    <callback name="GetColumnDescription" cname="AtkGetColumnDescriptionFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetColumnHeader" cname="AtkGetColumnHeaderFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetRowDescription" cname="AtkGetRowDescriptionFunc">
-      <return-type type="const-gchar*"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetRowHeader" cname="AtkGetRowHeaderFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetSummary" cname="AtkGetSummaryFunc">
-      <return-type type="AtkObject*"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-      </parameters>
-    </callback>
-    <callback name="SetCaption" cname="AtkSetCaptionFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="caption" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="SetColumnDescription" cname="AtkSetColumnDescriptionFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-        <parameter name="description" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="SetColumnHeader" cname="AtkSetColumnHeaderFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-        <parameter name="header" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="SetRowDescription" cname="AtkSetRowDescriptionFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="description" type="const-gchar*"/>
-      </parameters>
-    </callback>
-    <callback name="SetRowHeader" cname="AtkSetRowHeaderFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="header" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="SetSummary" cname="AtkSetSummaryFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="accessible" type="AtkObject*"/>
-      </parameters>
-    </callback>
-    <callback name="GetSelectedColumns" cname="AtkGetSelectedColumnsFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="selected" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetSelectedRows" cname="AtkGetSelectedRowsFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="selected" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="IsColumnSelected" cname="AtkIsColumnSelectedFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="IsRowSelected" cname="AtkIsRowSelectedFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="IsSelected" cname="AtkIsSelectedFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="AddRowSelection" cname="AtkAddRowSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="RemoveRowSelection" cname="AtkRemoveRowSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="AddColumnSelection" cname="AtkAddColumnSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="RemoveColumnSelection" cname="AtkRemoveColumnSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="RowInserted" cname="AtkRowInsertedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="num_inserted" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="ColumnInserted" cname="AtkColumnInsertedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-        <parameter name="num_inserted" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="RowDeleted" cname="AtkRowDeletedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="row" type="gint"/>
-        <parameter name="num_deleted" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="ColumnDeleted" cname="AtkColumnDeletedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-        <parameter name="column" type="gint"/>
-        <parameter name="num_deleted" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="RowReordered" cname="AtkRowReorderedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-      </parameters>
-    </callback>
-    <callback name="ColumnReordered" cname="AtkColumnReorderedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-      </parameters>
-    </callback>
-    <callback name="ModelChanged" cname="AtkModelChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="table" type="AtkTable*"/>
-      </parameters>
-    </callback>
-    <callback name="GetText" cname="AtkGetTextFunc">
-      <return-type type="gchar*"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="start_offset" type="gint"/>
-        <parameter name="end_offset" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetTextAfterOffset" cname="AtkGetTextAfterOffsetFunc">
-      <return-type type="gchar*"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="offset" type="gint"/>
-        <parameter name="boundary_type" type="AtkTextBoundary"/>
-        <parameter pass_as="out" name="start_offset" type="gint*"/>
-        <parameter pass_as="out" name="end_offset" type="gint*"/>
-      </parameters>
-    </callback>
-    <callback name="GetTextAtOffset" cname="AtkGetTextAtOffsetFunc">
-      <return-type type="gchar*"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="offset" type="gint"/>
-        <parameter name="boundary_type" type="AtkTextBoundary"/>
-        <parameter pass_as="out" name="start_offset" type="gint*"/>
-        <parameter pass_as="out" name="end_offset" type="gint*"/>
-      </parameters>
-    </callback>
-    <callback name="GetCharacterAtOffset" cname="AtkGetCharacterAtOffsetFunc">
-      <return-type type="gunichar"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="offset" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="GetTextBeforeOffset" cname="AtkGetTextBeforeOffsetFunc">
-      <return-type type="gchar*"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="offset" type="gint"/>
-        <parameter name="boundary_type" type="AtkTextBoundary"/>
-        <parameter pass_as="out" name="start_offset" type="gint*"/>
-        <parameter pass_as="out" name="end_offset" type="gint*"/>
-      </parameters>
-    </callback>
-    <callback name="GetCaretOffset" cname="AtkGetCaretOffsetFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-      </parameters>
-    </callback>
-    <callback name="GetRunAttributes" cname="AtkGetRunAttributesFunc">
-      <return-type type="GSList"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="offset" type="gint"/>
-        <parameter pass_as="out" name="start_offset" type="gint*"/>
-        <parameter pass_as="out" name="end_offset" type="gint*"/>
-      </parameters>
-    </callback>
-    <callback name="GetDefaultAttributes" cname="AtkGetDefaultAttributesFunc">
-      <return-type type="GSList"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-      </parameters>
-    </callback>
-    <callback name="GetCharacterExtents" cname="AtkGetCharacterExtentsFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="offset" type="gint"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="width" type="gint"/>
-        <parameter name="height" type="gint"/>
-        <parameter name="coords" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="GetCharacterCount" cname="AtkGetCharacterCountFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-      </parameters>
-    </callback>
-    <callback name="GetOffsetAtPoint" cname="AtkGetOffsetAtPointFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="x" type="gint"/>
-        <parameter name="y" type="gint"/>
-        <parameter name="coords" type="AtkCoordType"/>
-      </parameters>
-    </callback>
-    <callback name="GetNSelections" cname="AtkGetNSelectionsFunc">
-      <return-type type="gint"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-      </parameters>
-    </callback>
-    <callback name="GetSelection" cname="AtkGetSelectionFunc">
-      <return-type type="gchar*"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="selection_num" type="gint"/>
-        <parameter pass_as="out" name="start_offset" type="gint*"/>
-        <parameter pass_as="out" name="end_offset" type="gint*"/>
-      </parameters>
-    </callback>
-    <callback name="AddSelection" cname="AtkAddSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="start_offset" type="gint"/>
-        <parameter name="end_offset" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="RemoveSelection" cname="AtkRemoveSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="selection_num" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="SetSelection" cname="AtkSetSelectionFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="selection_num" type="gint"/>
-        <parameter name="start_offset" type="gint"/>
-        <parameter name="end_offset" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="SetCaretOffset" cname="AtkSetCaretOffsetFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="offset" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="TextChanged" cname="AtkTextChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="position" type="gint"/>
-        <parameter name="length" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="TextCaretMoved" cname="AtkTextCaretMovedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="location" type="gint"/>
-      </parameters>
-    </callback>
-    <callback name="TextSelectionChanged" cname="AtkTextSelectionChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-      </parameters>
-    </callback>
-    <callback name="TextAttributesChanged" cname="AtkTextAttributesChangedFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-      </parameters>
-    </callback>
-    <callback name="GetRangeExtents" cname="AtkGetRangeExtentsFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="start_offset" type="gint"/>
-        <parameter name="end_offset" type="gint"/>
-        <parameter name="coord_type" type="AtkCoordType"/>
-        <parameter name="rect" type="AtkTextRectangle*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-      </parameters>
-    </callback>
-    <callback name="GetBoundedRanges" cname="AtkGetBoundedRangesFunc">
-      <return-type type="AtkTextRange***" array="true" null_term_array="true"/>
-      <parameters>
-        <parameter name="text" type="AtkText*"/>
-        <parameter name="rect" type="AtkTextRectangle*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-        <parameter name="coord_type" type="AtkCoordType"/>
-        <parameter name="x_clip_type" type="AtkTextClipType"/>
-        <parameter name="y_clip_type" type="AtkTextClipType"/>
-      </parameters>
-    </callback>
-    <callback name="RemoveGlobalEventListener" cname="AtkRemoveGlobalEventListenerFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="listener_id" type="guint"/>
-      </parameters>
-    </callback>
-    <callback name="RemoveKeyEventListener" cname="AtkRemoveKeyEventListenerFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="listener_id" type="guint"/>
-      </parameters>
-    </callback>
-    <callback name="GetToolkitName" cname="AtkGetToolkitNameFunc">
-      <return-type type="const-gchar*"/>
-    </callback>
-    <callback name="GetToolkitVersion" cname="AtkGetToolkitVersionFunc">
-      <return-type type="const-gchar*"/>
-    </callback>
-    <callback name="GetCurrentValue" cname="AtkGetCurrentValueFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="obj" type="AtkValue*"/>
-        <parameter name="value" type="GValue*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-      </parameters>
-    </callback>
-    <callback name="GetMaximumValue" cname="AtkGetMaximumValueFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="obj" type="AtkValue*"/>
-        <parameter name="value" type="GValue*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-      </parameters>
-    </callback>
-    <callback name="GetMinimumValue" cname="AtkGetMinimumValueFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="obj" type="AtkValue*"/>
-        <parameter name="value" type="GValue*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-      </parameters>
-    </callback>
-    <callback name="SetCurrentValue" cname="AtkSetCurrentValueFunc">
-      <return-type type="gboolean"/>
-      <parameters>
-        <parameter name="obj" type="AtkValue*"/>
-        <parameter name="value" type="GValue*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-      </parameters>
-    </callback>
-    <callback name="GetMinimumIncrement" cname="AtkGetMinimumIncrementFunc">
-      <return-type type="void"/>
-      <parameters>
-        <parameter name="obj" type="AtkValue*"/>
-        <parameter name="value" type="GValue*">
-          <warning>missing glib:type-name</warning>
-        </parameter>
-      </parameters>
-    </callback>
     <object name="Global" cname="AtkGlobal" opaque="true">
       <method name="AddFocusTracker" cname="atk_add_focus_tracker" shared="true">
         <return-type type="guint"/>
@@ -4156,7 +3008,7 @@
         <return-type type="guint"/>
       </method>
       <method name="GetDefaultRegistry" cname="atk_get_default_registry" shared="true">
-        <return-type type="*"/>
+        <return-type type="*" owned="true"/>
       </method>
       <method name="GetFocusObject" cname="atk_get_focus_object" shared="true">
         <return-type type="AtkObject*"/>

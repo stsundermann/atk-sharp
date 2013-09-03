@@ -4,11 +4,12 @@ AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE
 AM_MAINTAINER_MODE
 AC_PROG_INSTALL
+LT_INIT
 
 dnl Package settings
 ASSEMBLY_COMPANY=""
 ASSEMBLY_COPYRIGHT="2012 Andreia Gaita"
-ASSEMBLY_DESCRIPTION="Atk-1.0 bindings for Mono"
+ASSEMBLY_DESCRIPTION="atk bindings for Mono"
 ASSEMBLY_NAME="atk-sharp"
 ASSEMBLY_NAMESPACE="Atk"
 ASSEMBLY_PC="atk-sharp-1.0"
@@ -76,7 +77,9 @@ PKG_CHECK_MODULES(GTK_SHARP, gtk-sharp-3.0)
 AC_SUBST(GTK_SHARP_CFLAGS)
 AC_SUBST(GTK_SHARP_LIBS)
 gtksharp_prefix=`pkg-config --variable=prefix gtk-sharp-3.0`
+GAPIXMLDIR=`pkg-config --variable=gapidir gtk-sharp-3.0`
 AC_SUBST(gtksharp_prefix)
+AC_SUBST(GAPIXMLDIR)
 
 dnl Check for gapi
 AC_PATH_PROG(GAPI_PARSER, gapi3-parser, no)
@@ -133,12 +136,17 @@ dnl Check for Atk
 PKG_CHECK_MODULES(ATK, atk)
 atk_prefix=/usr
 AC_SUBST(atk_prefix)
+AC_SUBST(ATK_LIBS)
+AC_SUBST(ATK_CFLAGS)
 
+dnl extra m4 calls
+CHECK_GLIBSHARP
 
 
 AC_CONFIG_FILES([
 	Makefile
 	sources/Makefile
+	sources/glue/Makefile
 	sources/AssemblyInfo.cs
 	atk-sharp-1.0.pc
 	doc/Makefile

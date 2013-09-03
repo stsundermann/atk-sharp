@@ -3,8 +3,13 @@ API = $(ASSEMBLY_NAME)-api.xml
 METADATA = $(ASSEMBLY_NAME).metadata
 DLL = $(top_srcdir)/out/$(ASSEMBLY_NAME).dll
 DLLMAP = $(top_srcdir)/out/$(ASSEMBLY_NAME).dll.config
+GLUEDIR = $(srcdir)/glue
 
-sources = 
+gapidir = $(GAPIXMLDIR)
+gapi_DATA = $(API)
+
+# Add any extra source files you need here
+sources =
 
 build_sources = AssemblyInfo.cs $(sources)
 
@@ -29,13 +34,15 @@ $(API): $(srcdir)/$(RAW_API) $(srcdir)/$(METADATA)
 	$(GAPI_FIXUP) --api=$(srcdir)/$(API) --metadata=$(srcdir)/$(METADATA)
 
 generated-stamp: $(API)
-	 $(GAPI_CODEGEN) --generate $(srcdir)/$(API) $(GTK_SHARP_CFLAGS) \
+	 $(GAPI_CODEGEN) --generate $(srcdir)/$(API) \
 		--outdir=generated \
+		--glue-filename=$(GLUEDIR)/generated.c --gluelib-name=libatksharpglue-2.8.0.so \
+		--glue-includes=atk/atk.h, --gapidir=$(gapidir) \
 	 	--assembly-name=$(ASSEMBLY_NAME) && touch generated-stamp
 
 $(DLL): $(build_sources) generated-stamp
-	$(CSC) -nowarn:169 -unsafe -target:library $(GTK_SHARP_LIBS) \
-		$(build_sources)  generated/*.cs -out:$(DLL)
+	$(CSC) -nowarn:169 -unsafe -target:library \
+		$(build_sources)  $(GLIBSHARP_LIBS) generated/*.cs -out:$(DLL)
 
 install-data-local:
 	echo "$(GACUTIL) /i $(DLL) /f $(GACUTIL_FLAGS)";  \
