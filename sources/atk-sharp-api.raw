@@ -255,7 +255,7 @@
     <callback name="Function" cname="AtkFunction">
       <return-type type="gboolean"/>
       <parameters>
-        <parameter name="user_data" type="gpointer"/>
+        <parameter closure="0" name="user_data" type="gpointer"/>
       </parameters>
     </callback>
     <callback name="KeySnoopFunc" cname="AtkKeySnoopFunc">
@@ -264,7 +264,7 @@
         <parameter name="event" type="AtkKeyEventStruct*">
           <warning>missing glib:type-name</warning>
         </parameter>
-        <parameter name="user_data" type="gpointer"/>
+        <parameter closure="1" name="user_data" type="gpointer"/>
       </parameters>
     </callback>
     <callback hidden="0" name="PropertyChangeHandler" cname="AtkPropertyChangeHandler">
@@ -941,7 +941,7 @@
         </parameters>
       </method>
     </interface>
-    <interface name="ImplementorIface" cname="AtkImplementorIface" abstract="false" opaque="false" hidden="false">
+    <interface name="ImplementorIface" cname="AtkImplementorIface" abstract="false" opaque="false" hidden="false" consume_only="true">
       <method name="GetType" cname="atk_implementor_get_type" shared="true">
         <return-type type="GType"/>
       </method>

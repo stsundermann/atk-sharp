@@ -3,8 +3,8 @@
 <remove-node path="/api/namespace/struct[@cname='AtkImplementor']" />
 <remove-node path="/api/namespace/interface[@cname='AtkImplementorIface']" />
 <add-node path="/api/namespace">
-    <interface name="Implementor" cname="AtkImplementor">
-      <class_struct cname="AtkImplementorIface">
+    <interface name="ImplementorIface" cname="AtkImplementorIface">
+      <class_struct cname="AtkImplementor">
         <field name="Parent" cname="parent" type="GTypeInterface" />
         <method vm="ref_accessible" />
       </class_struct>
